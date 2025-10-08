@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { registerUser,loginUser, updateAccountDetails, changePassword } from "../controllers/user.controllers.js";
+import { registerUser,loginUser, updateAccountDetails, changePassword,logOutUser } from "../controllers/user.controllers.js";
 const router = Router();
 
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser)
 // secure route
-router.route("/loggedOut").post(loggedoutUser)
+router.route("/loggedOut").post(logOutUser)
 // update routes
 router.route("/upadate-account").put(updateAccountDetails)
 // change Password

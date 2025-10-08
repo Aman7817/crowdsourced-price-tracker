@@ -13,9 +13,9 @@ cron.schedule("0 10 * * *" , async () => {
             const scraped = await scrapeProduct(product.url);
 
             if(scrapeProduct.price) {
-                product.currentPrice = scrapeProduct.price;
-                product.name = scrapeProduct.name || product.name;
-                product.site = scrapeProduct.site || product.site;
+                product.currentPrice = scraped.price;
+                product.name = scraped.name || product.name;
+                product.site = scraped.site || product.site;
 
                 product.priceHistory.push({
                     Date: new Date(),
