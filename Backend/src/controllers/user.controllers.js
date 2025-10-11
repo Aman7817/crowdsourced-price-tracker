@@ -24,8 +24,8 @@ const genreateAceessAndRefreshToken = async (userId) => {
 
 
 const registerUser = asyncHandler(async(req,res) => {
-    const {FullName,Email,Password} = req.body;
-    if([FullName,Email,Password].some((field) => field?.trim() == "")) {
+    const {FirstName,LastName,Email,Password} = req.body;
+    if([FirstName,LastName,Email,Password].some((field) => field?.trim() == "")) {
         throw new ApiError(400, "All fields are required")
     }
 
@@ -37,7 +37,8 @@ const registerUser = asyncHandler(async(req,res) => {
     }
 
     const newUser = await User.create({
-        FullName: FullName,
+        FirstName: FirstName,
+        LastName: LastName,
         Email,
         Password,
     });
@@ -58,14 +59,16 @@ const loginUser = asyncHandler(async(req,res) => {
         throw new ApiError(400, " Email is required");
     }
 
-    const user = User.findOne({
+    const user = await User.findOne({
         Email,
     })
+    console.log("User found:", user ? "Yes" : "No");
     if(!user) {
         throw new ApiError(404, "User does not exist");
     }
-
-    const isPasswordCorrect = await User.isPasswordCorrect(Password)
+    console.log("Checking password...");
+    const isPasswordCorrect = await user.isPasswordCorrect(Password)
+    console.log("Password valid:", isPasswordCorrect);
     if(!isPasswordCorrect) {
         throw new ApiError(401, "Invalid user credentials");
     }
@@ -80,8 +83,8 @@ const loginUser = asyncHandler(async(req,res) => {
 
     return res
         .status(200)
-        .cookie("accessToken",accessToken)
-        .cookie("refreshToke",refreshToken)
+        .cookie("accessToken",accessToken,options)
+        .cookie("refreshToke",refreshToken,options)
         .json(
             new ApiResponse(
                 200,
@@ -118,15 +121,15 @@ const getCurrentUser = asyncHandler(async(req,res) => {
 });
 
 const changePassword = asyncHandler(async(req,res) => {
-    const {oldPassword,newpassword} = req.body;
-    const user = await User.findById(req.user_id);
+    const {oldPassword,newPassword} = req.body;
+    const user = await User.findById(req.user._id);
 
-    const isPasswordCorrect = await User.isPasswordCorrect(oldPassword);
+    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
 
     if(!isPasswordCorrect) {
         throw new ApiError(400,"Invalid Password");
     }
-    user.Password = newpassword;
+    user.Password = newPassword;
     await user.save({validateBeforeSave: false});
 
     return res.status(200).json({

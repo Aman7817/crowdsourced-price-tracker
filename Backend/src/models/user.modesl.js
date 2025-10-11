@@ -4,7 +4,12 @@ import bcrypt from "bcrypt";
 
 const userSchema = new Schema(
     {
-        FullName:{
+        FirstName:{
+            type: String,
+            required: true,
+            index: true
+        },
+        LastName:{
             type: String,
             required: true,
             index: true
@@ -49,7 +54,7 @@ userSchema.methods.generateAccessToken = async function () {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: process.env,ACCESS_TOKEN_SECRET
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
         
     )
@@ -62,7 +67,7 @@ userSchema.methods.generateRefreshToken = async function () {
         },
         process.env.REFRESH_TOKEN_SECRET,
         {
-            expiresIn: process.env.REFRESH_TOKEN_SECRET
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
         }
     )
 }
