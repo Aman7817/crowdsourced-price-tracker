@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuthContext } from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
@@ -10,6 +12,7 @@ const LoginForm = () => {
      const [errors, setErrors] = useState({});
     const { login } = useAuthContext();
 
+    const navigate = useNavigate();
     const validateForm = () => {
         const newErrors = {};
         if (!Email) newErrors.Email = 'Email required';
@@ -28,9 +31,13 @@ const LoginForm = () => {
         //
         const result = await login(credentials);
         
+        console.log('Login result:', result); // ✅ Debug log
+
         if (result.success) {
             // Redirect to dashboard or home
-            window.location.href = '/';
+            // window.location.href = '/';
+            console.log("redirecting to dashboard");
+            navigate('/dashboard');
         } else {
             alert(result.error);
         }

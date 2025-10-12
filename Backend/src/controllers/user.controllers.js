@@ -82,16 +82,17 @@ const loginUser = asyncHandler(async(req,res) => {
     }
 
     return res
-        .status(200)
-        .cookie("accessToken",accessToken,options)
-        .cookie("refreshToke",refreshToken,options)
-        .json(
-            new ApiResponse(
-                200,
-                {user: loggedInUser,accessToken,refreshToken},
-                "user logged In sucessfully"
-            )
-        )
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json({
+        success: true,
+        message: "User logged in successfully",
+        token: accessToken,           // ✅ what frontend expects
+        refreshToken,
+        user: loggedInUser            // ✅ user object
+    });
+
 })
 
 const logOutUser = asyncHandler(async(req,res) => {
@@ -114,6 +115,10 @@ const logOutUser = asyncHandler(async(req,res) => {
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 })
 
+const getMe = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id).select('-Password -refreshToken');
+  res.status(200).json(user);
+});
 const getCurrentUser = asyncHandler(async(req,res) => {
     return res
     .status(200)
@@ -138,26 +143,28 @@ const changePassword = asyncHandler(async(req,res) => {
 })
 
 const updateAccountDetails = asyncHandler(async(req,res) => {
-    const {FullName,Email} = req.body;
+    const { firstName, lastName, email } = req.body;
 
-    if(!FullName || !Email) {
-        throw new ApiError(400,"Please fill in all fields");
+    if(!firstName || !lastName || !email) {
+        throw new ApiError(400, "Please fill in all fields");
     }
 
     const user = await User.findByIdAndUpdate(
-        req.user_id,
+        req.user._id,  // correct user ID
         {
             $set: {
-                FullName: FullName,
-                Email: Email
+                firstName,
+                lastName,
+                email
             }
         },
-        {new: true}
-    )
+        { new: true }
+    );
+
     return res.status(200).json(
-        new ApiResponse(200,user,"Account details updated successfully")
-    )
-})
+        new ApiResponse(200, user, "Account details updated successfully")
+    );
+});
 
 export {
     registerUser,
@@ -165,5 +172,6 @@ export {
     logOutUser,
     updateAccountDetails,
     changePassword,
-    getCurrentUser
+    getCurrentUser,
+    getMe
 }

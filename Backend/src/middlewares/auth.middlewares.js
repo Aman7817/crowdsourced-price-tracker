@@ -1,7 +1,9 @@
+/* This code snippet is defining a middleware function named `verifyjwt` in JavaScript. Here's a
+breakdown of what the code is doing: */
 import { ApiError } from "../utils/ApiError.js"; // Custom error class to handle API errors
-import { asyncHandler } from "../utils/asyncHandler.js"; // Helper function to handle asynchronous errors
+import { asyncHandler } from "../utils/asynckHandler.js"; // Helper function to handle asynchronous errors
 import jwt from "jsonwebtoken"; // Library to handle JSON Web Tokens (JWT)
-import { User } from "../models/user.model.js"; // Import the User model to interact with the database
+import { User } from "../models/user.modesl.js"; // Import the User model to interact with the database
 
 // Middleware to verify JWT and authenticate the user
  const verifyjwt = asyncHandler(async (req, res, next) => {
@@ -9,7 +11,9 @@ import { User } from "../models/user.model.js"; // Import the User model to inte
         // Step 1: Extract the token from cookies or authorization header
         const token = 
             req.cookies?.accessToken || // Check for token in cookies
-            req.header("authorization")?.replace("Bearer", "").trim(); // Check for token in the authorization header
+            req.header("authorization")?.replace("Bearer ", "").trim(); // Check for token in the authorization header
+        console.log("🔹 Token received:", token);
+        console.log(typeof token, token)
 
         // Step 2: If no token is provided, throw an unauthorized error
         if (!token) {

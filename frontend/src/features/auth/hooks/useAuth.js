@@ -70,16 +70,18 @@ export const useAuth = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const userData = await authAPI.getMe();
-        setUser(userData);
+        const response = await authAPI.getMe(); // API call returns { user: {...} }
+        setUser(response.user || response); // ensure user object is set
       }
     } catch (error) {
       localStorage.removeItem('token');
+      setUser(null);
       setError('Authentication failed');
     } finally {
       setLoading(false);
     }
   };
+
 
   // Update user profile
   const updateProfile = async (userData) => {
