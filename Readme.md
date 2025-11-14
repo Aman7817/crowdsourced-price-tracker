@@ -1,6 +1,6 @@
 # 💸 Crowdsourced Price Tracker
 
-Welcome to the **Crowdsourced Price Tracker**, an intelligent web app that lets users track product prices across e-commerce sites and receive alerts when prices drop — similar to Keepa or Honey.
+Welcome to the **Crowdsourced Price Tracker**, an intelligent web app that lets users track product prices across e-commerce sites and receive alerts when prices drop.
 
 ---
 
@@ -44,7 +44,7 @@ Built with a secure Node.js + Express backend and a modern React frontend.
 | **Authentication** | JWT + Cookies |
 | **Email Alerts** | Nodemailer |
 | **Web Scraping** | Cheerio / Puppeteer |
-| **Hosting** | Render / Vercel (optional) |
+| **Hosting** | AWS |
 
 ---
 
@@ -155,22 +155,7 @@ If using Gmail, enable App Passwords.
 ❌ CORS Error
 Make sure CORS_ORIGIN in .env matches your frontend URL.
 
-🧱 Folder Structure
-lua
-Copy code
-📦 crowdsourced-price-tracker
- ┣ 📂 backend
- ┃ ┣ 📂 controllers
- ┃ ┣ 📂 models
- ┃ ┣ 📂 routes
- ┃ ┣ 📂 services
- ┃ ┗ app.js
- ┣ 📂 frontend
- ┃ ┣ 📂 src
- ┃ ┗ vite.config.js
- ┣ .env
- ┣ package.json
- ┗ README.md
+
 🤝 Contributing
 Currently, contributions are not open as this is part of a personal learning + project build series.
 
@@ -179,9 +164,9 @@ Nodemailer for email notifications
 
 MongoDB for data storage
 
-Cheerio for scraping product info
+Pupeteer for scraping product info
 
-ChaiCode & Open Source Devs for inspiration
+
 
 📄 License
 MIT License © 2025 Aman Gurjar
