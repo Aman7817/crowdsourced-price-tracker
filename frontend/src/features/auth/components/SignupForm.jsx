@@ -97,7 +97,7 @@ const SignupForm = () => {
     if (result.success) {
       console.log('Before navigation');
       alert('Registration successful!');
-      navigate('/login');
+      navigate('/home'); // Redirect to home or dashboard
       console.log('After navigation');
     }
   };
