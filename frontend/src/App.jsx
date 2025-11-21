@@ -11,7 +11,7 @@ import AddProductPage from "./pages/product/addProduct";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 import Alerts from "./pages/Alerts/Alerts"
 import Profile from "./pages/Profile/Profile"; // ✅ New Import
-import Navbar from "./components/Layout/Navbar/Navbar"; // ✅ New Import
+import Navbar from "./components/layout/Navbar/Navbar"; // ✅ New Import
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import Terms from "./pages/Terms/Term";
