@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@rolldown/binding-win32-x64-msvc": "^1.0.0-beta.41",
     "@tailwindcss/vite": "^4.1.14",
     "axios": "^1.12.2",
     "card-npm": "^0.1.5",
