@@ -10,7 +10,23 @@ provider:
     MONGODB_URI: ${ssm:/cpt/mongoUri}
     JWT_SECRET: ${ssm:/cpt/jwtSecret}
   httpApi:
-    cors: true
+    cors:
+      allowedOrigins:
+        - https://crowdsourced-price-tracker-e9dy.vercel.app
+        - http://localhost:5173
+      
+      allowedHeaders:
+        - Content-Type
+        - Authorization
+        - x-api-key
+      allowedMethods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+      allowCredentials: true
+
     authorizers:
       jwtAuthorizer:
         type: request
