@@ -12,7 +12,7 @@ provider:
   httpApi:
     cors:
       allowedOrigins:
-        - https://crowdsourced-price-tracker-u77a.vercel.app
+        - https://crowdsourced-price-tracker.vercel.app/
         - http://localhost:5173
       
       allowedHeaders:
