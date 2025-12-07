@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://c3nm8b4bv5.execute-api.ap-south-1.amazonaws.com',
+  baseURL: import.meta.env.VITE_API_URL || 'https://c3nm8b4bv5.execute-api.ap-south-1.amazonaws.com/api/v1',
+  
+
   withCredentials: true, // Include cookies in requests
 });
 
