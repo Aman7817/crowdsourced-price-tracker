@@ -5,35 +5,35 @@ export const authAPI = {
     // post /api/v1/users/register
 
     register: async (userData) => {
-        const response = await API.post("/users/register",userData);
+        const response = await API.post("/user/register",userData);
         return response.data;
     },
 
     // post /api/v1/users/login
     login: async (Credentials) => {
-        const response = await API.post("/users/login",Credentials);
+        const response = await API.post("/user/login",Credentials);
         return response.data;
     },
 
     // get /api/v1/users/me (JWT Protected Route)
     getMe: async () => {
-        const response = await API.get("/users/me");
+        const response = await API.get("/user/me");
         return response.data;
     },
     // post /api/v1/users/logout
     logout: async () => {
-        const response = await API.post("/users/logout");
+        const response = await API.post("/user/logout");
         return response.data;
     },
 
     // put /api/v1/users/update-account
     updateAccountDetails: async (userData) => {
-        const response = await API.put("/users/update-account", userData);
+        const response = await API.put("/user/update-account", userData);
         return response.data;
     },
     // put /api/v1/users/change-password
     changePassword: async (oldPassword, newPassword) => {
-        const response = await API.put("/users/change-password", {oldPassword, newPassword});
+        const response = await API.put("/user/change-password", {oldPassword, newPassword});
         return response.data;
     },
     
