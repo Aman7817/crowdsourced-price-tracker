@@ -1,5 +1,4 @@
 service: crowdsourced-price-tracker
-
 frameworkVersion: "4"
 
 provider:
@@ -10,47 +9,34 @@ provider:
     MONGODB_URI: ${ssm:/cpt/mongoUri}
     JWT_SECRET: ${ssm:/cpt/jwtSecret}
   httpApi:
+    # ----------- clean CORS block -----------
     cors:
-      cors: true   
       allowedOrigins:
-        - https://crowdsourced-price-tracker.vercel.app
+        - https://crowdsourced-price-tracker-e9dy.vercel.app   # exact browser origin
         - http://localhost:5173
-      
       allowedHeaders:
         - Content-Type
         - Authorization
         - x-api-key
-      allowedMethods:
-        - OPTIONS
-        - GET
-        - POST
-        - PUT
-        - DELETE
+      allowedMethods: "*"
       allowCredentials: true
-
+    # ----------------------------------------
     authorizers:
       jwtAuthorizer:
         type: request
         functionName: jwtAuthorizer
-  # Optional: define deployment bucket if you have S3 permission issues
-  # deploymentBucket: your-existing-s3-bucket-name
 
 functions:
-  # =======================
-  # AUTHORIZER
-  # =======================
   jwtAuthorizer:
     handler: src/auth/jwtAuthorizer.jwtAuthorizer
 
-  # =======================
-  # USER ROUTES
-  # =======================
   registerUser:
     handler: src/handlers/user/registerUser.registerUser
     events:
       - httpApi:
           path: /api/v1/user/register
           method: post
+          cors: true          # ← individual route pe bhi lagao (HTTP-API rule)
 
   loginUser:
     handler: src/handlers/user/loginUser.loginUser
@@ -58,7 +44,9 @@ functions:
       - httpApi:
           path: /api/v1/user/login
           method: post
+          cors: true          # ← same here
 
+  # ---------- rest routes same pattern ----------
   getMe:
     handler: src/handlers/user/getMe.getMe
     events:
@@ -67,6 +55,7 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   logOutUser:
     handler: src/handlers/user/logOutUser.logOutUser
@@ -76,6 +65,7 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   changePassword:
     handler: src/handlers/user/changePassword.changePassword
@@ -85,6 +75,7 @@ functions:
           method: put
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   updateAccount:
     handler: src/handlers/user/updateAccountDetails.updateAccountDetails
@@ -94,10 +85,8 @@ functions:
           method: put
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
-  # =======================
-  # PRODUCT ROUTES
-  # =======================
   addProduct:
     handler: src/handlers/product/addProduct.addProduct
     events:
@@ -106,6 +95,7 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   getAllProducts:
     handler: src/handlers/product/getAllProducts.getAllProducts
@@ -115,6 +105,7 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   getProduct:
     handler: src/handlers/product/getProduct.getProduct
@@ -124,6 +115,7 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   scanProduct:
     handler: src/handlers/product/scanProduct.scanProduct
@@ -133,6 +125,7 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   deleteProduct:
     handler: src/handlers/product/deleteProduct.deleteProduct
@@ -142,6 +135,7 @@ functions:
           method: delete
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   getPriceHistory:
     handler: src/handlers/product/getPriceHistory.getPriceHistory
@@ -151,6 +145,7 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   refreshProducts:
     handler: src/handlers/product/refreshProducts.refreshProducts
@@ -160,18 +155,13 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
-  # =======================
-  # CRON JOB (Every 2 hours)
-  # =======================
   cronRefreshProducts:
     handler: src/handlers/product/updatePrices.updatePrices
     events:
       - schedule: cron(0 */2 * * ? *)
 
-  # =======================
-  # ALERTS ROUTES
-  # =======================
   createAlert:
     handler: src/handlers/alerts/createAlert.createAlert
     events:
@@ -180,6 +170,7 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
+          cors: true
 
   getAlerts:
     handler: src/handlers/alerts/getAlerts.getAlerts
@@ -189,9 +180,226 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
-
-# plugins:
-#   - serverless-webpack
+          cors: true
 
 package:
   individually: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# service: crowdsourced-price-tracker
+
+# frameworkVersion: "4"
+
+# provider:
+#   name: aws
+#   runtime: nodejs20.x
+#   region: ap-south-1
+#   environment:
+#     MONGODB_URI: ${ssm:/cpt/mongoUri}
+#     JWT_SECRET: ${ssm:/cpt/jwtSecret}
+#   httpApi:
+#     cors:
+#       cors: true   
+#       allowedOrigins:
+#         - https://crowdsourced-price-tracker.vercel.app
+#         - http://localhost:5173
+      
+#       allowedHeaders:
+#         - Content-Type
+#         - Authorization
+#         - x-api-key
+#       allowedMethods:
+#         - OPTIONS
+#         - GET
+#         - POST
+#         - PUT
+#         - DELETE
+#       allowCredentials: true
+
+#     authorizers:
+#       jwtAuthorizer:
+#         type: request
+#         functionName: jwtAuthorizer
+#   # Optional: define deployment bucket if you have S3 permission issues
+#   # deploymentBucket: your-existing-s3-bucket-name
+
+# functions:
+#   # =======================
+#   # AUTHORIZER
+#   # =======================
+#   jwtAuthorizer:
+#     handler: src/auth/jwtAuthorizer.jwtAuthorizer
+
+#   # =======================
+#   # USER ROUTES
+#   # =======================
+#   registerUser:
+#     handler: src/handlers/user/registerUser.registerUser
+#     events:
+#       - httpApi:
+#           path: /api/v1/user/register
+#           method: post
+
+#   loginUser:
+#     handler: src/handlers/user/loginUser.loginUser
+#     events:
+#       - httpApi:
+#           path: /api/v1/user/login
+#           method: post
+
+#   getMe:
+#     handler: src/handlers/user/getMe.getMe
+#     events:
+#       - httpApi:
+#           path: /api/v1/user/me
+#           method: get
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   logOutUser:
+#     handler: src/handlers/user/logOutUser.logOutUser
+#     events:
+#       - httpApi:
+#           path: /api/v1/user/logout
+#           method: post
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   changePassword:
+#     handler: src/handlers/user/changePassword.changePassword
+#     events:
+#       - httpApi:
+#           path: /api/v1/user/change-password
+#           method: put
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   updateAccount:
+#     handler: src/handlers/user/updateAccountDetails.updateAccountDetails
+#     events:
+#       - httpApi:
+#           path: /api/v1/user/update-account
+#           method: put
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   # =======================
+#   # PRODUCT ROUTES
+#   # =======================
+#   addProduct:
+#     handler: src/handlers/product/addProduct.addProduct
+#     events:
+#       - httpApi:
+#           path: /api/v1/product
+#           method: post
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   getAllProducts:
+#     handler: src/handlers/product/getAllProducts.getAllProducts
+#     events:
+#       - httpApi:
+#           path: /api/v1/product
+#           method: get
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   getProduct:
+#     handler: src/handlers/product/getProduct.getProduct
+#     events:
+#       - httpApi:
+#           path: /api/v1/product/{id}
+#           method: get
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   scanProduct:
+#     handler: src/handlers/product/scanProduct.scanProduct
+#     events:
+#       - httpApi:
+#           path: /api/v1/product/{id}/scan
+#           method: post
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   deleteProduct:
+#     handler: src/handlers/product/deleteProduct.deleteProduct
+#     events:
+#       - httpApi:
+#           path: /api/v1/product/{id}
+#           method: delete
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   getPriceHistory:
+#     handler: src/handlers/product/getPriceHistory.getPriceHistory
+#     events:
+#       - httpApi:
+#           path: /api/v1/product/{id}/history
+#           method: get
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   refreshProducts:
+#     handler: src/handlers/product/refreshProducts.refreshProducts
+#     events:
+#       - httpApi:
+#           path: /api/v1/product/refresh
+#           method: post
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   # =======================
+#   # CRON JOB (Every 2 hours)
+#   # =======================
+#   cronRefreshProducts:
+#     handler: src/handlers/product/updatePrices.updatePrices
+#     events:
+#       - schedule: cron(0 */2 * * ? *)
+
+#   # =======================
+#   # ALERTS ROUTES
+#   # =======================
+#   createAlert:
+#     handler: src/handlers/alerts/createAlert.createAlert
+#     events:
+#       - httpApi:
+#           path: /api/v1/alerts
+#           method: post
+#           authorizer:
+#             name: jwtAuthorizer
+
+#   getAlerts:
+#     handler: src/handlers/alerts/getAlerts.getAlerts
+#     events:
+#       - httpApi:
+#           path: /api/v1/alerts
+#           method: get
+#           authorizer:
+#             name: jwtAuthorizer
+
+# # plugins:
+# #   - serverless-webpack
+
+# package:
+#   individually: true
