@@ -9,10 +9,9 @@ provider:
     MONGODB_URI: ${ssm:/cpt/mongoUri}
     JWT_SECRET: ${ssm:/cpt/jwtSecret}
   httpApi:
-    # ----------- clean CORS block -----------
-    cors:
+    cors:          # ← global CORS only here
       allowedOrigins:
-        - https://crowdsourced-price-tracker-e9dy.vercel.app   # exact browser origin
+        - https://crowdsourced-price-tracker-e9dy.vercel.app
         - http://localhost:5173
       allowedHeaders:
         - Content-Type
@@ -20,7 +19,6 @@ provider:
         - x-api-key
       allowedMethods: "*"
       allowCredentials: true
-    # ----------------------------------------
     authorizers:
       jwtAuthorizer:
         type: request
@@ -36,7 +34,6 @@ functions:
       - httpApi:
           path: /api/v1/user/register
           method: post
-          cors: true          # ← individual route pe bhi lagao (HTTP-API rule)
 
   loginUser:
     handler: src/handlers/user/loginUser.loginUser
@@ -44,9 +41,7 @@ functions:
       - httpApi:
           path: /api/v1/user/login
           method: post
-          cors: true          # ← same here
 
-  # ---------- rest routes same pattern ----------
   getMe:
     handler: src/handlers/user/getMe.getMe
     events:
@@ -55,7 +50,6 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   logOutUser:
     handler: src/handlers/user/logOutUser.logOutUser
@@ -65,7 +59,6 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   changePassword:
     handler: src/handlers/user/changePassword.changePassword
@@ -75,7 +68,6 @@ functions:
           method: put
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   updateAccount:
     handler: src/handlers/user/updateAccountDetails.updateAccountDetails
@@ -85,7 +77,6 @@ functions:
           method: put
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   addProduct:
     handler: src/handlers/product/addProduct.addProduct
@@ -95,7 +86,6 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   getAllProducts:
     handler: src/handlers/product/getAllProducts.getAllProducts
@@ -105,7 +95,6 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   getProduct:
     handler: src/handlers/product/getProduct.getProduct
@@ -115,7 +104,6 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   scanProduct:
     handler: src/handlers/product/scanProduct.scanProduct
@@ -125,7 +113,6 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   deleteProduct:
     handler: src/handlers/product/deleteProduct.deleteProduct
@@ -135,7 +122,6 @@ functions:
           method: delete
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   getPriceHistory:
     handler: src/handlers/product/getPriceHistory.getPriceHistory
@@ -145,7 +131,6 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   refreshProducts:
     handler: src/handlers/product/refreshProducts.refreshProducts
@@ -155,7 +140,6 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   cronRefreshProducts:
     handler: src/handlers/product/updatePrices.updatePrices
@@ -170,7 +154,6 @@ functions:
           method: post
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
   getAlerts:
     handler: src/handlers/alerts/getAlerts.getAlerts
@@ -180,11 +163,9 @@ functions:
           method: get
           authorizer:
             name: jwtAuthorizer
-          cors: true
 
 package:
   individually: true
-
 
 
 
