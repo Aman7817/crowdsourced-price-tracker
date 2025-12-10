@@ -11,6 +11,7 @@ provider:
     JWT_SECRET: ${ssm:/cpt/jwtSecret}
   httpApi:
     cors:
+      cors: true   
       allowedOrigins:
         - https://crowdsourced-price-tracker.vercel.app
         - http://localhost:5173
