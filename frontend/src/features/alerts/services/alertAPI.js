@@ -5,7 +5,7 @@ export const alertAPI = {
   // Create new alert - POST /api/v1/alerts
   addAlert: async (alertData) => {
     console.log("Adding alert:", alertData);
-    const response = await API.post("alerts", alertData);
+    const response = await API.post("/alerts", alertData);
     console.log("Added alert response:", response.data);
     return response.data;
   },
@@ -13,7 +13,7 @@ export const alertAPI = {
   // Get all alerts for current user - GET /api/v1/alerts
   getAlerts: async () => {
     console.log("Fetching user alerts...");
-    const response = await API.get("alerts");
+    const response = await API.get("/alerts");
     console.log("Fetched alerts response:", response.data);
     return response.data;
   }

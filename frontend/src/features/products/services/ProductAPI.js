@@ -5,7 +5,7 @@ export const productAPI = {
     //  POST: /products/add-product
     addProduct: async (productData) => {
         console.log("Adding product:", productData);
-        const response = await API.post("product/add-product", productData);
+        const response = await API.post("/product/add-product", productData);
         console.log("Added product response:", response.data);
         return response.data;
     },
