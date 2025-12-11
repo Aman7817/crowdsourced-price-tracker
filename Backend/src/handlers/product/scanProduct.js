@@ -1,7 +1,7 @@
 // src/handlers/product/scanProduct.js
 import { scanProductService } from "../../services/productService.js";
 import { success, failure } from "../../utils/response.js";
-import { connectDB } from "../../db.js";
+import { connectDB } from "../../database/db.js";
 
 export const scanProduct = async (event) => {
   try {

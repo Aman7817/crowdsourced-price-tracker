@@ -1,6 +1,6 @@
 import { Product } from "../../models/product.models.js";
 import { scrapeProduct } from "../../services/scraper.js";
-import { connectDB } from "../../mongo.js";
+import { connectDB } from "../../database/db.js";
 
 export const updatePrices = async () => {
   console.log("Running scheduled price update...");

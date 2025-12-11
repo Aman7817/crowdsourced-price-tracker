@@ -1,8 +1,7 @@
 // refreshProduct.handler.js
 
-const { updateProductPrice } = require('../services/scraperService');
-const { saveAlert } = require('../services/alertService');
-
+import { updateProductPrice } from "../../services/scraperService.js";
+import { saveAlert } from "../../services/alertService.js";
 // Refresh product details + update price + save alerts
 module.exports.handler = async (event) => {
   try {

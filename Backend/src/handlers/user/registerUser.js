@@ -1,7 +1,7 @@
 import { User } from "../../models/user.models.js";
 import { response } from "../../utils/response.js";
 
-import { connectDB } from "../../db.js";
+import { connectDB } from "../../database/db.js";
 
 export const registerUser = async (event) => {
   try {

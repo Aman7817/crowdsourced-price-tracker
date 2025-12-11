@@ -1,4 +1,4 @@
-import { connectDB } from "../db/connectDB.js";
+import { connectDB } from "../database/db.js";
 
 export const withDB = (handler) => {
   return async (event, context) => {
