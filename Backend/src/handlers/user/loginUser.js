@@ -1,5 +1,6 @@
 import { response } from "../../utils/response.js";
-import { User } from "../../models/user.modesl.js";
+import { User } from "../../models/user.models.js";
+import { withDB } from "../../utils/withDb.js";
 
 const generateTokens = async (userId) => {
   const user = await User.findById(userId);
@@ -12,7 +13,7 @@ const generateTokens = async (userId) => {
   return { accessToken, refreshToken };
 };
 
-export const loginUser = async (event) => {
+export const loginUser = withDB(async (event) => {
   try {
     const body = JSON.parse(event.body);
     const { Email, Password } = body;
@@ -40,4 +41,4 @@ export const loginUser = async (event) => {
   } catch (err) {
     return response(500, { error: err.message });
   }
-};
+});

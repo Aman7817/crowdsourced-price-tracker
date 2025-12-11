@@ -1,7 +1,8 @@
-import { User } from "../../models/user.modesl.js";
+import { User } from "../../models/user.models.js";
 import { response } from "../../utils/response.js";
+import { withDB } from "../../utils/withDb.js";
 
-export const registerUser = async (event) => {
+export const registerUser = withDB(async (event) => {
   try {
     const body = JSON.parse(event.body);
     const { FirstName, LastName, Email, Password } = body;
@@ -33,4 +34,4 @@ export const registerUser = async (event) => {
   } catch (err) {
     return response(500, { error: "Something went wrong", details: err.message });
   }
-};
+});

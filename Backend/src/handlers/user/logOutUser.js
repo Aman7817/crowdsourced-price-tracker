@@ -1,7 +1,8 @@
-import { User } from "../../models/user.modesl.js";
+import { User } from "../../models/user.models.js";
 import { response } from "../../utils/response.js";
+import { withDB } from "../../utils/withDb.js";
 
-export const logOutUser = async (event) => {
+export const logOutUser = withDB(async (event) => {
   try {
     const userId = event.requestContext.authorizer.userId;
 
@@ -15,4 +16,4 @@ export const logOutUser = async (event) => {
   } catch (err) {
     return response(500, { error: err.message });
   }
-};
+});

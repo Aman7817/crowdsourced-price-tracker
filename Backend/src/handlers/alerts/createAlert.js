@@ -1,8 +1,10 @@
 import { createAlertService } from "../../services/alertService.js";
 import { success, error } from "../../utils/response.js";
-import { getUserIdFromEvent } from "../../utils/jwt.js";
+// import { getUserIdFromEvent } from "../../utils/jwt.js";
 
-export const createAlert = async (event) => {
+import { withDB } from "../../utils/withDb.js";
+
+export const createAlert = withDB(async (event) => {
   try {
     const userId = getUserIdFromEvent(event);
     const body = JSON.parse(event.body);
@@ -13,4 +15,4 @@ export const createAlert = async (event) => {
   } catch (err) {
     return error(err);
   }
-};
+});
