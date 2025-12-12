@@ -89,7 +89,7 @@ const LoginForm = () => {
                             <label htmlFor="password" className="block mb-1 font-medium text-slate-300">Password</label>
                             <div className="relative">
                             <input
-                                type={Password ? 'text' : 'password'}
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 name="password"
                                 value={Password}
