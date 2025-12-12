@@ -11,7 +11,7 @@ provider:
   httpApi:
     cors:          # ← global CORS only here
       allowedOrigins:
-        - https://crowdsourced-price-tracker-e9dy.vercel.app
+        - https://crowdsourced-price-tracker-gkq7.vercel.app
         - http://localhost:5173
       allowedHeaders:
         - Content-Type
